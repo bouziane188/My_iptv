@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيقي</title>
+    <style>
+        * { box-sizing: border-box; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #0d0d13; font-family: sans-serif; overflow: hidden; display: flex; justify-content: center; align-items: center; color: white; }
+        
+        /* زر تبديل اللغات أعلى اليمين */
+        .lang-container { position: absolute; top: 20px; right: 20px; display: flex; background: #1a1a24; border: 1px solid #333344; border-radius: 30px; padding: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .lang-btn { background: none; border: none; color: #888; padding: 8px 16px; font-size: 14px; font-weight: bold; cursor: pointer; border-radius: 20px; transition: 0.3s; }
+        .lang-btn.active, .lang-btn:focus { background: linear-gradient(135deg, #00ffff, #0088ff); color: #000; box-shadow: 0 0 10px rgba(0,255,255,0.4); outline: none; }
+
+        /* المنتصف: كود التفعيل */
+        .activation-container { text-align: center; width: 90%; max-width: 400px; }
+        .activation-input { width: 100%; padding: 15px; font-size: 18px; text-align: center; background: #1a1a24; border: 2px solid #333344; border-radius: 12px; color: #fff; letter-spacing: 2px; outline: none; transition: 0.3s; }
+        .activation-input:focus { border-color: #00ffff; box-shadow: 0 0 15px rgba(0,255,255,0.2); }
+
+        /* أسفل اليسار: الإصدار */
+        .version { position: absolute; bottom: 20px; left: 20px; font-size: 14px; color: #555566; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- زر اللغات الاحترافي أعلى اليمين -->
+    <div class="lang-container">
+        <button class="lang-btn active">AR</button>
+        <button class="lang-btn">FR</button>
+        <button class="lang-btn">EN</button>
+    </div>
+
+    <!-- منتصف الشاشة: كود التفعيل -->
+    <div class="activation-container">
+        <input type="text" class="activation-input" placeholder="أدخل كود التفعيل هنا" maxlength="15">
+    </div>
+
+    <!-- أسفل اليسار: إصدار التطبيق -->
+    <div class="version">v1.0.0</div>
+
+    <script>
+        // تنقل بسيط بين أزرار اللغة عند الضغط
+        const tabs = document.querySelectorAll('.lang-btn');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
