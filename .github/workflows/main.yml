@@ -6,7 +6,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
@@ -16,24 +17,26 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Install Capacitor & Initialize
+      - name: Install Tools
         run: |
-          npm install @capacitor/core @capacitor/cli
+          npm install -g @capacitor/cli
+          npm install @capacitor/core @capacitor/android
+
+      - name: Create Android Project
+        run: |
           npx cap init MyTVApp com.mybrand.app --web-dir=www --confirm
-          npm install @capacitor/android
           npx cap add android
 
-      - name: Sync Project
-        run: npx cap sync
+      - name: Sync Web Assets
+        run: npx cap sync android
 
-      - name: Build APK via Gradle
+      - name: Build Debug APK
         run: |
           cd android
-          chmod +x gradlew
           ./gradlew assembleDebug
 
-      - name: Upload APK Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: my-app-apk
+          name: My-TV-App-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
