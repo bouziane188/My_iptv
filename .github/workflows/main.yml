@@ -6,15 +6,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build Android APK from HTML
-        uses: tttstudios/html-to-apk-action@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          web-dir: 'www'
-          app-name: 'MyTVApp'
-          package-name: 'com.mybrand.app'
+          node-version: 18
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: Install Cordova
+        run: npm install -g cordova
+
+      - name: Create App & Build APK
+        run: |
+          cordova create myapp com.mybrand.app MyTVApp
+          cd myapp
+          cordova platform add android@10.1.2
+          rm -rf www
+          cp -r ../www .
+          cordova build android --debug
 
       - name: Upload Finished APK
         uses: actions/upload-artifact@v4
         with:
           name: My-TV-App-APK
-          path: app-release-unsigned.apk
+          path: myapp/platforms/android/app/build/outputs/apk/debug/app-debug.apk
